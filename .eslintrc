@@ -1,0 +1,24 @@
+// todo: think about extends airbnb vs prettier
+
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  // "extends": ["airbnb"],
+  "plugins": ["import", "jsx-a11y", "react", "react-hooks"],
+  "rules": {
+    "strict": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-props-no-spreading": "off",
+    "react/prop-types": [0, { "ignore": "ignore", "customValidators": "customValidator" }],
+    "react/state-in-constructor": "off",
+    "react/destructuring-assignment": [1, "always", { "ignoreClassFields": true }],
+    "no-underscore-dangle": [2, { "allowAfterThis": true }],
+    "arrow-body-style": ["error", "as-needed"],
+    "no-param-reassign": ["error", { "props": false }]
+  }
+}
