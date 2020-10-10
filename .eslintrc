@@ -1,5 +1,3 @@
-// todo: think about extends airbnb vs prettier
-
 {
   "parser": "babel-eslint",
   "env": {
@@ -8,7 +6,6 @@
     "jest": true
   },
   "extends": ["airbnb", "prettier", "prettier/react"],
-  // "extends": ["airbnb"],
   "plugins": ["import", "jsx-a11y", "react", "react-hooks"],
   "rules": {
     "strict": 0,

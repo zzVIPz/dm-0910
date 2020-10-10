@@ -1,0 +1,30 @@
+html {
+  font-size: 10px;
+}
+
+body {
+  display: -webkit-flex;
+  display:         flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  background-color: $color-body;
+
+  @extend %font-prim;
+  @include font($size: 1.6rem, $height: 1.85rem, $weight: normal);
+
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.org-details {
+  color: #333333;
+
+  cursor: pointer;
+}
+
+.organization-data {
+  border: 1px solid #cccccc;
+}
