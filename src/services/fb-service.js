@@ -19,13 +19,29 @@ export default class FirebaseService {
     this.database = firebase.database();
   }
 
-  addCompany(name, address, phone, registrationDate, siteUrl) {
-    const newCompanyRef = name.push();
-    this.database.ref(`companies/${newCompanyRef}`).set({
+  addCompany({ name, address, phone, registrationDate, siteUrl, invoices = [] }) {
+    const newCompanyRef = this.database.ref(`companies/`).push();
+    newCompanyRef.set({
+      name,
       address,
       phone,
       registrationDate,
       siteUrl,
     });
+    if (invoices.length) {
+      invoices.forEach((invoice) => {
+        this.addInvoice(newCompanyRef.key, invoice);
+      });
+    }
+  }
+
+  addInvoice(key, invoice) {
+    const newInvoiceRef = this.database.ref(`invoices/${key}`).push();
+    newInvoiceRef.set({ ...invoice });
+  }
+
+  removeAllCompanies() {
+    this.database.ref(`companies/`).remove();
+    this.database.ref(`invoices/`).remove();
   }
 }

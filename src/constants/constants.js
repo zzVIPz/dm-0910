@@ -1,6 +1,7 @@
 const HEADER_TEXT = {
   user: 'User',
   btnUpdateDB: 'Update DB',
+  loading: 'Loading',
   btnClearDB: 'Clear DB',
 };
 
