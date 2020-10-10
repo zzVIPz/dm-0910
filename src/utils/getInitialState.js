@@ -1,6 +1,8 @@
+import { HEADER_TEXT } from '../constants/constants';
+
 const getInitialState = () => ({
-  currentView: true,
-  currentUser: 'User1',
+  isSideMenuActive: true,
+  currentUser: `DM - ${HEADER_TEXT.user}`,
 });
 
 export default getInitialState;
