@@ -25,7 +25,7 @@ export default class FirebaseService {
     await allCompaniesRef.once('value', (snapshot) => {
       result = snapshot.val();
     });
-    return result;
+    return result || [];
   }
 
   addCompany({ name, address, phone, registrationDate, siteUrl, invoices = [] }) {

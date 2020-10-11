@@ -3,22 +3,30 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { HEADER_TEXT } from '../../constants/constants';
 import DATA from '../../data/dummy-data';
+import { onClearDB, onSetCompanies } from '../../actions/actions';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-const Header = ({ currentUser, api }) => {
+const Header = ({ currentUser, api, onBtnClearClick, onBtnUpdateClick }) => {
   const { btnUpdateDB, btnClearDB } = HEADER_TEXT;
   const [isLoading, setLoading] = useState(false);
-  const handleBtnUpdateClick = () => {
+
+  const handleBtnUpdateClick = async () => {
     setLoading(true);
+    onBtnClearClick();
+    await api.removeAllCompanies();
     DATA.forEach(async (company) => {
       await api.addCompany(company);
     });
-    setLoading(false);
+    api.getAllCompanies().then((companies) => {
+      onBtnUpdateClick(companies);
+      setLoading(false);
+    });
   };
 
   const handleBtnClearClick = async () => {
     setLoading(true);
+    onBtnClearClick();
     await api.removeAllCompanies();
     setLoading(false);
   };
@@ -56,4 +64,7 @@ const mapStateToProps = ({ currentUser, api }) => ({
   api,
 });
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, {
+  onBtnClearClick: onClearDB,
+  onBtnUpdateClick: onSetCompanies,
+})(Header);

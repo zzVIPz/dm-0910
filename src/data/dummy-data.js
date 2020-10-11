@@ -2,7 +2,7 @@ const DATA = [
   {
     name: 'Google Inc',
     address: '1600 Amphitheatre Parkway, Mountain View, California, U.S.',
-    phone: 1917111111,
+    phone: 191711111111,
     registrationDate: 1598986800,
     siteUrl: 'https://www.google.com/',
     invoices: [

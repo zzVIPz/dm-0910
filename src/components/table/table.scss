@@ -1,0 +1,15 @@
+.table .column-title {
+  vertical-align: middle;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .column-title-registrationData,
+  .column-title-siteUrl {
+    display: none;
+  }
+
+  .mobile-hide {
+    display: none;
+  }
+}
