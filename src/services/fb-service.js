@@ -19,6 +19,15 @@ export default class FirebaseService {
     this.database = firebase.database();
   }
 
+  async getAllCompanies() {
+    const allCompaniesRef = this.database.ref('companies/');
+    let result;
+    await allCompaniesRef.once('value', (snapshot) => {
+      result = snapshot.val();
+    });
+    return result;
+  }
+
   addCompany({ name, address, phone, registrationDate, siteUrl, invoices = [] }) {
     const newCompanyRef = this.database.ref(`companies/`).push();
     newCompanyRef.set({

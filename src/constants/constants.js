@@ -5,10 +5,13 @@ const HEADER_TEXT = {
   btnClearDB: 'Clear DB',
 };
 
-const HEADER_TEXT1 = {
-  user: 'User1',
-  btnUpdateDB: 'Update DB',
-  btnClearDB: 'Clear DB',
+const TABLE_HEAD = {
+  counter: '№',
+  organization: 'Organization',
+  phone: 'Phone number',
+  address: 'Address',
+  registrationData: 'Registration date',
+  siteUrl: 'Site',
 };
 
-export { HEADER_TEXT, HEADER_TEXT1 };
+export { HEADER_TEXT, TABLE_HEAD };
