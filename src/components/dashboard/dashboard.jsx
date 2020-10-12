@@ -6,11 +6,11 @@ import Table from '../table/table';
 
 import { onSetCompanies } from '../../actions/actions';
 
-const Dashboard = ({ api, onFetch }) => {
+const Dashboard = ({ api, onFetch, onEditOrganizationClick }) => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.getAllCompanies().then((data) => {
+    api.getAllOrganizations().then((data) => {
       onFetch(data);
       setLoading(false);
     });
@@ -26,7 +26,7 @@ const Dashboard = ({ api, onFetch }) => {
           <Spinner animation="border" variant="primary" />
         </Container>
       ) : (
-        <Table />
+        <Table {...{ onEditOrganizationClick }} />
       )}
     </>
   );

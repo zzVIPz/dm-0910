@@ -16,7 +16,7 @@ import getRegistrationDate from '../../utils/getRegistrationDate';
 
 import './table.scss';
 
-const TableContainer = ({ companies, api, onFetch }) => {
+const TableContainer = ({ companies, api, onFetch, onEditOrganizationClick }) => {
   const { titleSuccess, descriptionDelete } = NOTIFICATION_TEXT;
   const [displayNotification, setDisplayNotification] = useState(false);
   const [notificationTitle, setNotificationTitle] = useState('');
@@ -24,8 +24,8 @@ const TableContainer = ({ companies, api, onFetch }) => {
   const [notificationTitleColor, setNotificationTitleColor] = useState('');
 
   const onDeleteClick = async (key) => {
-    await api.deleteCompany(key);
-    const data = await api.getAllCompanies();
+    await api.deleteOrganization(key);
+    const data = await api.getAllOrganizations();
     onFetch(data);
     setNotificationTitle(titleSuccess);
     setNotificationDescription(descriptionDelete);
@@ -33,7 +33,11 @@ const TableContainer = ({ companies, api, onFetch }) => {
     setDisplayNotification(true);
   };
 
-  const onDisplayClose = () => {
+  const onEditClick = async (organization) => {
+    onEditOrganizationClick(organization);
+  };
+
+  const onNotificationClose = () => {
     setDisplayNotification(false);
   };
 
@@ -67,7 +71,10 @@ const TableContainer = ({ companies, api, onFetch }) => {
                   <Button variant="success">
                     <CgFileDocument style={{ fontSize: '2.5rem' }} />
                   </Button>
-                  <Button variant="primary">
+                  <Button
+                    variant="primary"
+                    onClick={() => onEditClick({ organizationKey: key, ...value })}
+                  >
                     <BiEdit style={{ fontSize: '2.5rem' }} />
                   </Button>
                   <Button variant="danger" onClick={() => onDeleteClick(key)}>
@@ -85,7 +92,7 @@ const TableContainer = ({ companies, api, onFetch }) => {
             notificationTitle,
             notificationDescription,
             displayNotification,
-            onDisplayClose,
+            onNotificationClose,
             notificationTitleColor,
           }}
         />

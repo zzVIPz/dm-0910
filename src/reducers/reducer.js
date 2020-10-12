@@ -1,4 +1,4 @@
-import { SET_COMPANIES, CLEAR_DB, SET_DISPLAY_MODAL } from '../actions/actions-types';
+import { SET_COMPANIES, CLEAR_DB } from '../actions/actions-types';
 
 import getInitialState from '../utils/getInitialState';
 
@@ -8,8 +8,6 @@ const reducer = (state = getInitialState(), action) => {
       return { ...state, companies: action.companies };
     case CLEAR_DB:
       return { ...state, companies: [] };
-    case SET_DISPLAY_MODAL:
-      return { ...state, displayModal: action.mode };
     default:
       return state;
   }

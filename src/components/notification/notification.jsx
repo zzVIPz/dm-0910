@@ -4,14 +4,14 @@ import { Toast } from 'react-bootstrap';
 const Notification = ({
   notificationTitle,
   notificationDescription,
-  onDisplayClose,
+  onNotificationClose,
   displayNotification,
   notificationTitleColor,
 }) => {
   const { Header, Body } = Toast;
   return (
     <Toast
-      onClose={onDisplayClose}
+      onClose={onNotificationClose}
       show={displayNotification}
       delay={2000}
       autohide

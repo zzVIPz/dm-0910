@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 
 import { Modal, Button, Form } from 'react-bootstrap';
-import { onSetDisplayModal, onSetCompanies } from '../../actions/actions';
 import { MODAL_TEXT } from '../../constants/constants';
-
-import getTimeStamp from '../../utils/getTimeStamp';
 
 // import 'bootstrap/dist/css/bootstrap.css';
 
-const ModalContainer = ({ displayModal, setDisplayModal, api, onFetch }) => {
+const ModalContainer = ({
+  displayModal,
+  name,
+  phone,
+  address,
+  siteUrl,
+  setOrganizationName,
+  setPhone,
+  setAddress,
+  setSiteUrl,
+  onSubmitOrganization,
+  onClose,
+  currentKey,
+}) => {
+  console.log('11111', name, currentKey);
   const { Header, Title, Body } = Modal;
   const {
     createOrganization,
+    editOrganization,
     organizationName,
     organizationPlaceholder,
     addressText,
@@ -26,24 +37,18 @@ const ModalContainer = ({ displayModal, setDisplayModal, api, onFetch }) => {
   } = MODAL_TEXT;
 
   const [validated, setValidated] = useState(false);
-  const [name, setOrganizationName] = useState('');
-  const [phone, setPhoneValue] = useState('');
-  const [address, setAddressValue] = useState('');
-  const [siteUrl, setSiteValue] = useState('');
+
   const handleOrganizationChange = ({ target: { value } }) => setOrganizationName(value);
-  const handlePhoneChange = ({ target: { value } }) => setPhoneValue(value);
-  const handleAddressChange = ({ target: { value } }) => setAddressValue(value);
-  const handleSiteChange = ({ target: { value } }) => setSiteValue(value);
+  const handlePhoneChange = ({ target: { value } }) => setPhone(value);
+  const handleAddressChange = ({ target: { value } }) => setAddress(value);
+  const handleSiteChange = ({ target: { value } }) => setSiteUrl(value);
 
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
     if (form.checkValidity()) {
-      await api.addCompany({ name, address, phone, registrationDate: getTimeStamp(), siteUrl });
-      setDisplayModal();
-      const data = await api.getAllCompanies();
-      onFetch(data);
+      onSubmitOrganization();
     }
     setValidated(true);
   };
@@ -60,9 +65,11 @@ const ModalContainer = ({ displayModal, setDisplayModal, api, onFetch }) => {
   );
 
   return (
-    <Modal show={displayModal} size="xl" onHide={setDisplayModal} centered>
+    <Modal show={displayModal} size="xl" onHide={onClose} centered>
       <Header closeButton>
-        <Title style={{ fontSize: '2rem' }}>{createOrganization}</Title>
+        <Title style={{ fontSize: '2rem' }}>
+          {currentKey ? editOrganization : createOrganization}
+        </Title>
       </Header>
       <Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -87,12 +94,7 @@ const ModalContainer = ({ displayModal, setDisplayModal, api, onFetch }) => {
             {getFormControl(siteUrlPlaceholder, siteUrl, handleSiteChange)}
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <Button
-              size="lg"
-              variant="primary"
-              onClick={() => setDisplayModal()}
-              style={{ width: 75 }}
-            >
+            <Button size="lg" variant="primary" onClick={onClose} style={{ width: 75 }}>
               {btnCancel}
             </Button>
             <Button
@@ -111,12 +113,4 @@ const ModalContainer = ({ displayModal, setDisplayModal, api, onFetch }) => {
   );
 };
 
-const mapStateToProps = ({ displayModal, api }) => ({
-  displayModal,
-  api,
-});
-
-export default connect(mapStateToProps, {
-  setDisplayModal: onSetDisplayModal,
-  onFetch: onSetCompanies,
-})(ModalContainer);
+export default ModalContainer;

@@ -14,11 +14,11 @@ const Header = ({ currentUser, api, onBtnClearClick, onBtnUpdateClick }) => {
   const handleBtnUpdateClick = async () => {
     setLoading(true);
     onBtnClearClick();
-    await api.removeAllCompanies();
+    await api.removeAllOrganizations();
     DATA.forEach(async (company) => {
-      await api.addCompany(company);
+      await api.addOrganization(company);
     });
-    api.getAllCompanies().then((companies) => {
+    api.getAllOrganizations().then((companies) => {
       onBtnUpdateClick(companies);
       setLoading(false);
     });
@@ -27,7 +27,7 @@ const Header = ({ currentUser, api, onBtnClearClick, onBtnUpdateClick }) => {
   const handleBtnClearClick = async () => {
     setLoading(true);
     onBtnClearClick();
-    await api.removeAllCompanies();
+    await api.removeAllOrganizations();
     setLoading(false);
   };
 

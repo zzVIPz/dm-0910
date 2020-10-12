@@ -1,27 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { CONTROLS_TEXT } from '../../constants/constants';
-import { onSetDisplayModal } from '../../actions/actions';
 
-const Controls = ({ setDisplayModal }) => {
-  const { btnAddCompany } = CONTROLS_TEXT;
+// import 'bootstrap/dist/css/bootstrap.css';
 
-  const handleBtnAddClick = () => {
-    setDisplayModal(true);
-  };
+const Controls = ({ onCreateOrganizationClick }) => {
+  const { btnAddOrganization } = CONTROLS_TEXT;
 
   return (
     <>
-      <Button variant="outline-dark" size="lg" className="m-3" onClick={handleBtnAddClick}>
-        {btnAddCompany}
+      <Button variant="outline-dark" size="lg" className="m-3" onClick={onCreateOrganizationClick}>
+        {btnAddOrganization}
       </Button>
     </>
   );
 };
 
-const mapStateToProps = ({ displayModal }) => ({
-  displayModal,
-});
-
-export default connect(mapStateToProps, { setDisplayModal: onSetDisplayModal })(Controls);
+export default Controls;

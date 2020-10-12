@@ -15,11 +15,12 @@ const TABLE_HEAD = {
 };
 
 const CONTROLS_TEXT = {
-  btnAddCompany: 'Add company',
+  btnAddOrganization: 'Add organization',
 };
 
 const MODAL_TEXT = {
   createOrganization: 'Create new organization',
+  editOrganization: 'Edit organization',
   organizationName: 'Organization name:',
   organizationPlaceholder: 'Enter organization name',
   phoneNumber: 'Phone number:',
@@ -35,7 +36,7 @@ const MODAL_TEXT = {
 const NOTIFICATION_TEXT = {
   titleSuccess: 'Success',
   titleError: 'Error',
-  descriptionDelete: 'Сompany has been deleted',
+  descriptionDelete: 'Organization has been deleted',
 };
 
 export { HEADER_TEXT, TABLE_HEAD, CONTROLS_TEXT, MODAL_TEXT, NOTIFICATION_TEXT };

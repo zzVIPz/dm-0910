@@ -19,7 +19,7 @@ export default class FirebaseService {
     this.database = firebase.database();
   }
 
-  async getAllCompanies() {
+  async getAllOrganizations() {
     const allCompaniesRef = this.database.ref('companies/');
     let result;
     await allCompaniesRef.once('value', (snapshot) => {
@@ -28,7 +28,7 @@ export default class FirebaseService {
     return result || [];
   }
 
-  addCompany({ name, address, phone, registrationDate, siteUrl, invoices = [] }) {
+  addOrganization({ name, address, phone, registrationDate, siteUrl, invoices = [] }) {
     const newCompanyRef = this.database.ref(`companies/`).push();
     newCompanyRef.set({
       name,
@@ -44,17 +44,27 @@ export default class FirebaseService {
     }
   }
 
+  updateOrganization({ key, name, address, phone, siteUrl }) {
+    const newCompanyRef = this.database.ref(`companies/${key}`);
+    newCompanyRef.update({
+      name,
+      address,
+      phone,
+      siteUrl,
+    });
+  }
+
   addInvoice(key, invoice) {
     const newInvoiceRef = this.database.ref(`invoices/${key}`).push();
     newInvoiceRef.set({ ...invoice });
   }
 
-  deleteCompany(key) {
+  deleteOrganization(key) {
     this.database.ref(`companies/${key}`).remove();
     this.database.ref(`invoices/${key}`).remove();
   }
 
-  removeAllCompanies() {
+  removeAllOrganizations() {
     this.database.ref(`companies/`).remove();
     this.database.ref(`invoices/`).remove();
   }

@@ -1,22 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import Header from '../header/header';
-import Controls from '../controls/controls';
-import Dashboard from '../dashboard/dashboard';
-import Modal from '../modal-add/modal-add';
+import Main from '../main/main';
 
-const App = ({ displayModal }) => (
+const App = () => (
   <>
     <Header />
-    <Controls />
-    <Dashboard />
-    {displayModal && <Modal />}
+    <Main />
   </>
 );
 
-const mapStateToProps = ({ displayModal }) => ({
-  displayModal,
-});
-
-export default connect(mapStateToProps)(App);
+export default App;
