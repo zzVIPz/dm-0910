@@ -12,6 +12,7 @@ const TABLE_HEAD = {
   address: 'Address',
   registrationData: 'Registration date',
   siteUrl: 'Site',
+  tools: 'Tools',
 };
 
 const CONTROLS_TEXT = {
