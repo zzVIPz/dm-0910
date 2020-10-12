@@ -9,17 +9,17 @@ const DATA = [
       {
         date: 1598986800,
         type: 'credit',
-        amount: 187.76,
+        total: 187.76,
       },
       {
         date: 1598972400,
         type: 'mixed',
-        amount: 200,
+        total: 200,
       },
       {
         date: 1598918400,
         type: 'commercial',
-        amount: 20000,
+        total: 20000,
       },
     ],
   },
@@ -33,17 +33,17 @@ const DATA = [
       {
         date: 1598986800,
         type: 'credit',
-        amount: 100000,
+        total: 100000,
       },
       {
         date: 1598972400,
         type: 'mixed',
-        amount: 974.41,
+        total: 974.41,
       },
       {
         date: 1598918400,
         type: 'mixed',
-        amount: 700,
+        total: 700,
       },
     ],
   },
@@ -57,17 +57,17 @@ const DATA = [
       {
         date: 1598986800,
         type: 'credit',
-        amount: 999,
+        total: 999,
       },
       {
         date: 1598972400,
         type: 'mixed',
-        amount: 888,
+        total: 888,
       },
       {
         date: 1598918400,
         type: 'mixed',
-        amount: 7777,
+        total: 7777,
       },
     ],
   },

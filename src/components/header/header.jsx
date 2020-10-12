@@ -5,8 +5,6 @@ import { HEADER_TEXT } from '../../constants/constants';
 import DATA from '../../data/dummy-data';
 import { onClearDB, onSetCompanies } from '../../actions/actions';
 
-import 'bootstrap/dist/css/bootstrap.css';
-
 const Header = ({ currentUser, api, onBtnClearClick, onBtnUpdateClick }) => {
   const { btnUpdateDB, btnClearDB } = HEADER_TEXT;
   const [isLoading, setLoading] = useState(false);

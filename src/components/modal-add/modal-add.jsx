@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { MODAL_TEXT } from '../../constants/constants';
 
-// import 'bootstrap/dist/css/bootstrap.css';
-
 const ModalContainer = ({
   displayModal,
   name,
@@ -16,10 +14,10 @@ const ModalContainer = ({
   setAddress,
   setSiteUrl,
   onSubmitOrganization,
-  onClose,
-  currentKey,
+  onModalClose,
+  currentOrganizationId,
 }) => {
-  console.log('11111', name, currentKey);
+  console.log('11111', name, currentOrganizationId);
   const { Header, Title, Body } = Modal;
   const {
     createOrganization,
@@ -65,10 +63,10 @@ const ModalContainer = ({
   );
 
   return (
-    <Modal show={displayModal} size="xl" onHide={onClose} centered>
+    <Modal show={displayModal} size="xl" onHide={onModalClose} centered>
       <Header closeButton>
         <Title style={{ fontSize: '2rem' }}>
-          {currentKey ? editOrganization : createOrganization}
+          {currentOrganizationId ? editOrganization : createOrganization}
         </Title>
       </Header>
       <Body>
@@ -94,7 +92,7 @@ const ModalContainer = ({
             {getFormControl(siteUrlPlaceholder, siteUrl, handleSiteChange)}
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <Button size="lg" variant="primary" onClick={onClose} style={{ width: 75 }}>
+            <Button size="lg" variant="primary" onClick={onModalClose} style={{ width: 75 }}>
               {btnCancel}
             </Button>
             <Button

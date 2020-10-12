@@ -4,7 +4,7 @@ const HEADER_TEXT = {
   btnClearDB: 'Clear DB',
 };
 
-const TABLE_HEAD = {
+const TABLE_ORGANIZATIONS_HEAD = {
   counter: '№',
   organization: 'Organization',
   phone: 'Phone number',
@@ -14,8 +14,18 @@ const TABLE_HEAD = {
   tools: 'Tools',
 };
 
+const TABLE_INVOICES_HEAD = {
+  counter: '№',
+  date: 'Date',
+  type: 'Type',
+  total: 'Total',
+  tools: 'Tools',
+};
+
 const CONTROLS_TEXT = {
   btnAddOrganization: 'Add organization',
+  btnAddInvoice: 'Add invoice',
+  btnBackToOrganization: 'Add invoice',
 };
 
 const MODAL_TEXT = {
@@ -36,7 +46,21 @@ const MODAL_TEXT = {
 const NOTIFICATION_TEXT = {
   titleSuccess: 'Success',
   titleError: 'Error',
-  descriptionDelete: 'Organization has been deleted',
+  organizationDelete: 'Organization has been deleted',
+  invoiceDelete: 'Invoice has been deleted',
 };
 
-export { HEADER_TEXT, TABLE_HEAD, CONTROLS_TEXT, MODAL_TEXT, NOTIFICATION_TEXT };
+const VIEW_MODES = {
+  organizationsView: 'organizations',
+  invoicesView: 'invoices',
+};
+
+export {
+  HEADER_TEXT,
+  TABLE_ORGANIZATIONS_HEAD,
+  TABLE_INVOICES_HEAD,
+  CONTROLS_TEXT,
+  MODAL_TEXT,
+  NOTIFICATION_TEXT,
+  VIEW_MODES,
+};

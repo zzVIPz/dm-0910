@@ -6,104 +6,115 @@ import { CgFileDocument } from 'react-icons/cg';
 import { BiEdit } from 'react-icons/bi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 
-import Notification from '../notification/notification';
-
-import { TABLE_HEAD, NOTIFICATION_TEXT } from '../../constants/constants';
-
-import { onSetCompanies } from '../../actions/actions';
+import {
+  TABLE_ORGANIZATIONS_HEAD,
+  VIEW_MODES,
+  TABLE_INVOICES_HEAD,
+} from '../../constants/constants';
 
 import getRegistrationDate from '../../utils/getRegistrationDate';
 
 import './table.scss';
 
-const TableContainer = ({ companies, api, onFetch, onEditOrganizationClick }) => {
-  const { titleSuccess, descriptionDelete } = NOTIFICATION_TEXT;
-  const [displayNotification, setDisplayNotification] = useState(false);
-  const [notificationTitle, setNotificationTitle] = useState('');
-  const [notificationDescription, setNotificationDescription] = useState('');
-  const [notificationTitleColor, setNotificationTitleColor] = useState('');
+const TableContainer = ({
+  companies,
+  invoices,
+  viewMode,
+  onEditOrganizationClick,
+  onDeleteOrganizationClick,
+  onDeleteInvoiceClick,
+  onViewInvoiceClick,
+}) => {
+  const { organizationsView } = VIEW_MODES;
+  const isOrganizationsView = viewMode === organizationsView;
+  const tableHead = isOrganizationsView ? TABLE_ORGANIZATIONS_HEAD : TABLE_INVOICES_HEAD;
+  const tableBody = isOrganizationsView ? companies : invoices;
 
   const onDeleteClick = async (key) => {
-    await api.deleteOrganization(key);
-    const data = await api.getAllOrganizations();
-    onFetch(data);
-    setNotificationTitle(titleSuccess);
-    setNotificationDescription(descriptionDelete);
-    setNotificationTitleColor('green');
-    setDisplayNotification(true);
+    if (isOrganizationsView) {
+      onDeleteOrganizationClick(key);
+      return;
+    }
+
+    console.log('onDeleteClick', key);
+    onDeleteInvoiceClick(key);
   };
 
   const onEditClick = async (organization) => {
     onEditOrganizationClick(organization);
   };
 
-  const onNotificationClose = () => {
-    setDisplayNotification(false);
+  const onDetailsClick = async (organizationKey) => {
+    onViewInvoiceClick(organizationKey);
   };
 
+  console.log('TABLE_HEAD', tableBody);
   return (
-    <>
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            {Object.entries(TABLE_HEAD).map(([key, value]) => (
-              <th key={key} className={`column-title column-title-${key}`}>
-                {value}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(companies).map(([key, value], idx) => (
-            <tr key={key}>
-              <td>{idx + 1}</td>
-              <td>{value.name}</td>
-              <td>{value.phone}</td>
-              <td>{value.address}</td>
-              <td className="mobile-hide">{getRegistrationDate(value.registrationDate)}</td>
-              <td className="mobile-hide">
-                <a href={value.siteUrl} rel="noreferrer" target="_blank">
-                  {value.siteUrl}
-                </a>
-              </td>
-              <td className="align-middle">
-                <ButtonGroup className="mt-1 mb-1">
-                  <Button variant="success">
+    <Table striped bordered hover responsive>
+      <thead>
+        <tr>
+          {Object.entries(tableHead).map(([key, value]) => (
+            <th key={key} className={`column-title column-title-${key}`}>
+              {value}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {Object.entries(tableBody).map(([key, value], idx) => (
+          <tr key={key}>
+            <td>{idx + 1}</td>
+            {isOrganizationsView ? (
+              <OrganizationTableRow {...value} />
+            ) : (
+              <InvoicesTableRow {...value} />
+            )}
+
+            <td className="d-flex align-middle justify-content-center">
+              <ButtonGroup className="mt-1 mb-1">
+                {isOrganizationsView && (
+                  <Button variant="success" onClick={() => onDetailsClick(key)}>
                     <CgFileDocument style={{ fontSize: '2.5rem' }} />
                   </Button>
-                  <Button
-                    variant="primary"
-                    onClick={() => onEditClick({ organizationKey: key, ...value })}
-                  >
-                    <BiEdit style={{ fontSize: '2.5rem' }} />
-                  </Button>
-                  <Button variant="danger" onClick={() => onDeleteClick(key)}>
-                    <RiDeleteBin6Line style={{ fontSize: '2.5rem' }} />
-                  </Button>
-                </ButtonGroup>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      {displayNotification && (
-        <Notification
-          {...{
-            notificationTitle,
-            notificationDescription,
-            displayNotification,
-            onNotificationClose,
-            notificationTitleColor,
-          }}
-        />
-      )}
-    </>
+                )}
+                <Button
+                  variant="primary"
+                  onClick={() => onEditClick({ organizationKey: key, ...value })}
+                >
+                  <BiEdit style={{ fontSize: '2.5rem' }} />
+                </Button>
+                <Button variant="danger" onClick={() => onDeleteClick(key)}>
+                  <RiDeleteBin6Line style={{ fontSize: '2.5rem' }} />
+                </Button>
+              </ButtonGroup>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   );
 };
 
-const mapStateToProps = ({ companies, api }) => ({
-  companies,
-  api,
-});
+export default TableContainer;
 
-export default connect(mapStateToProps, { onFetch: onSetCompanies })(TableContainer);
+const OrganizationTableRow = ({ name, phone, address, registrationDate, siteUrl }) => (
+  <>
+    <td>{name}</td>
+    <td>{phone}</td>
+    <td>{address}</td>
+    <td className="mobile-hide">{getRegistrationDate(registrationDate)}</td>
+    <td className="mobile-hide">
+      <a href={siteUrl} rel="noreferrer" target="_blank">
+        {siteUrl}
+      </a>
+    </td>
+  </>
+);
+
+const InvoicesTableRow = ({ date, type, total }) => (
+  <>
+    <td>{getRegistrationDate(date)}</td>
+    <td>{type}</td>
+    <td>{total}</td>
+  </>
+);

@@ -59,9 +59,22 @@ export default class FirebaseService {
     newInvoiceRef.set({ ...invoice });
   }
 
+  async getOrganizationInvoices(organizationKey) {
+    const newInvoicesRef = this.database.ref(`invoices/${organizationKey}`);
+    let result;
+    await newInvoicesRef.once('value', (snapshot) => {
+      result = snapshot.val();
+    });
+    return result || [];
+  }
+
   deleteOrganization(key) {
     this.database.ref(`companies/${key}`).remove();
     this.database.ref(`invoices/${key}`).remove();
+  }
+
+  deleteInvoice(organizationKey, invoiceKey) {
+    this.database.ref(`invoices/${organizationKey}/${invoiceKey}`).remove();
   }
 
   removeAllOrganizations() {
