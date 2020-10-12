@@ -1,7 +1,6 @@
 const HEADER_TEXT = {
   user: 'User',
   btnUpdateDB: 'Update DB',
-  loading: 'Loading...',
   btnClearDB: 'Clear DB',
 };
 
@@ -33,4 +32,10 @@ const MODAL_TEXT = {
   btnOk: 'Ok',
 };
 
-export { HEADER_TEXT, TABLE_HEAD, CONTROLS_TEXT, MODAL_TEXT };
+const NOTIFICATION_TEXT = {
+  titleSuccess: 'Success',
+  titleError: 'Error',
+  descriptionDelete: 'Сompany has been deleted',
+};
+
+export { HEADER_TEXT, TABLE_HEAD, CONTROLS_TEXT, MODAL_TEXT, NOTIFICATION_TEXT };

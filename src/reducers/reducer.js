@@ -8,11 +8,8 @@ const reducer = (state = getInitialState(), action) => {
       return { ...state, companies: action.companies };
     case CLEAR_DB:
       return { ...state, companies: [] };
-    case SET_DISPLAY_MODAL: {
-      console.log(1111111);
+    case SET_DISPLAY_MODAL:
       return { ...state, displayModal: action.mode };
-    }
-
     default:
       return state;
   }
