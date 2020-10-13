@@ -1,0 +1,8 @@
+dist/
+node_modules/
+.vscode/
+.idea/
+.prettierignore
+package-lock.json
+package.json
+yarn.lock

@@ -1,0 +1,9 @@
+.navbar .header__title {
+  font-size: 1.4rem;
+}
+
+@media (max-width: 545px) {
+  .navbar .header__title {
+    display: none;
+  }
+}
