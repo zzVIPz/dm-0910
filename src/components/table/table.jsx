@@ -24,6 +24,7 @@ const TableContainer = ({
   onDeleteOrganizationClick,
   onDeleteInvoiceClick,
   onViewInvoiceClick,
+  onEditInvoiceClick,
 }) => {
   const { organizationsView } = VIEW_MODES;
   const isOrganizationsView = viewMode === organizationsView;
@@ -35,20 +36,21 @@ const TableContainer = ({
       onDeleteOrganizationClick(key);
       return;
     }
-
-    console.log('onDeleteClick', key);
     onDeleteInvoiceClick(key);
   };
 
-  const onEditClick = async (organization) => {
-    onEditOrganizationClick(organization);
+  const handleEditClick = async (data) => {
+    if (viewMode === organizationsView) {
+      onEditOrganizationClick(data);
+      return;
+    }
+    onEditInvoiceClick(data);
   };
 
   const onDetailsClick = async (organizationKey) => {
     onViewInvoiceClick(organizationKey);
   };
 
-  console.log('TABLE_HEAD', tableBody);
   return (
     <Table striped bordered hover responsive>
       <thead>
@@ -79,7 +81,7 @@ const TableContainer = ({
                 )}
                 <Button
                   variant="primary"
-                  onClick={() => onEditClick({ organizationKey: key, ...value })}
+                  onClick={() => handleEditClick({ itemKey: key, ...value })}
                 >
                   <BiEdit style={{ fontSize: '2.5rem' }} />
                 </Button>

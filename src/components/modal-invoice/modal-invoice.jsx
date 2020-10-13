@@ -6,13 +6,15 @@ import { Modal, Form } from 'react-bootstrap';
 import ModalButtons from '../modal-buttons/modal-buttons';
 import FormControl from '../form-control/form-control';
 
-import { MODAL_INVOICE_TEXT } from '../../constants/constants';
+import { MODAL_INVOICE_TEXT, SELECT_OPTIONS } from '../../constants/constants';
 
 import getTimeStamp from '../../utils/getTimeStamp';
 
 const ModalContainer = ({
   displayInvoiceModal,
   currentInvoiceId,
+  currentInvoiceDate,
+  currentInvoiceType,
   onInvoiceModalClose,
   setInvoiceTotal,
   setInvoiceType,
@@ -30,23 +32,12 @@ const ModalContainer = ({
     invoicesTypes,
     totalLabel,
     totalPlaceholder,
-    credit,
-    debit,
-    mixed,
-    commercial,
   } = MODAL_INVOICE_TEXT;
 
-  const options = [
-    { value: credit, label: credit },
-    { value: debit, label: debit },
-    { value: commercial, label: commercial },
-    { value: mixed, label: mixed },
-  ];
-
-  const dateNow = new Date();
+  const defaultSelectOption = SELECT_OPTIONS.findIndex((el) => el.value === currentInvoiceType);
   const [validated, setValidated] = useState(false);
-  const [startDate, setStartDate] = useState(dateNow);
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [startDate, setStartDate] = useState(currentInvoiceDate * 1000 || new Date());
+  const [selectedOption, setSelectedOption] = useState(SELECT_OPTIONS[defaultSelectOption]);
 
   const handleSelectChange = (selectedValue) => {
     setSelectedOption(selectedValue);
@@ -83,7 +74,7 @@ const ModalContainer = ({
           <Group controlId="formInvoiceTypeSelect">
             <Label>{invoicesTypes}</Label>
             <Select
-              options={options}
+              options={SELECT_OPTIONS}
               defaultValue={selectedOption}
               value={selectedOption}
               onChange={handleSelectChange}

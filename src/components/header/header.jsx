@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { HEADER_TEXT } from '../../constants/constants';
+import { HEADER_TEXT, VIEW_MODES } from '../../constants/constants';
 import DATA from '../../data/dummy-data';
-import { onClearDB, onSetCompanies } from '../../actions/actions';
+import { onClearDB, onSetCompanies, onSetViewMode } from '../../actions/actions';
 
-const Header = ({ currentUser, api, onBtnClearClick, onBtnUpdateClick }) => {
+import './header.scss';
+
+const Header = ({ currentUser, api, onBtnClearClick, onBtnUpdateClick, setViewMode, viewMode }) => {
   const { btnUpdateDB, btnClearDB } = HEADER_TEXT;
+  const { organizationsView, invoicesView } = VIEW_MODES;
   const [isLoading, setLoading] = useState(false);
+  const currentViewMode = viewMode === organizationsView ? organizationsView : invoicesView;
 
   const handleBtnUpdateClick = async () => {
+    setViewMode(organizationsView);
     setLoading(true);
     onBtnClearClick();
     await api.removeAllOrganizations();
@@ -23,6 +28,7 @@ const Header = ({ currentUser, api, onBtnClearClick, onBtnUpdateClick }) => {
   };
 
   const handleBtnClearClick = async () => {
+    setViewMode(organizationsView);
     setLoading(true);
     onBtnClearClick();
     await api.removeAllOrganizations();
@@ -31,9 +37,8 @@ const Header = ({ currentUser, api, onBtnClearClick, onBtnUpdateClick }) => {
 
   return (
     <nav className="sb-topnav navbar navbar-dark bg-dark">
-      <div className="col-2">
-        <span className="navbar-brand">{currentUser}</span>
-      </div>
+      <span className="navbar-brand">{currentUser}</span>
+      <span className="navbar-brand header__title">{currentViewMode.toUpperCase()}</span>
       <div>
         <Button
           variant="success"
@@ -57,12 +62,14 @@ const Header = ({ currentUser, api, onBtnClearClick, onBtnUpdateClick }) => {
   );
 };
 
-const mapStateToProps = ({ currentUser, api }) => ({
+const mapStateToProps = ({ currentUser, api, viewMode }) => ({
   currentUser,
   api,
+  viewMode,
 });
 
 export default connect(mapStateToProps, {
   onBtnClearClick: onClearDB,
   onBtnUpdateClick: onSetCompanies,
+  setViewMode: onSetViewMode,
 })(Header);

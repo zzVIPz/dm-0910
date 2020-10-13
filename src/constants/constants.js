@@ -72,6 +72,15 @@ const VIEW_MODES = {
   invoicesView: 'invoices',
 };
 
+const { credit, debit, mixed, commercial } = MODAL_INVOICE_TEXT;
+
+const SELECT_OPTIONS = [
+  { value: credit, label: credit },
+  { value: debit, label: debit },
+  { value: commercial, label: commercial },
+  { value: mixed, label: mixed },
+];
+
 export {
   HEADER_TEXT,
   TABLE_ORGANIZATIONS_HEAD,
@@ -82,4 +91,5 @@ export {
   VIEW_MODES,
   MODAL_INVOICE_TEXT,
   MODAL_BUTTONS,
+  SELECT_OPTIONS,
 };

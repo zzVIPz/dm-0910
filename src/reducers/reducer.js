@@ -1,4 +1,4 @@
-import { SET_COMPANIES, SET_INVOICES, CLEAR_DB } from '../actions/actions-types';
+import { SET_COMPANIES, SET_INVOICES, CLEAR_DB, SET_VIEW_MODE } from '../actions/actions-types';
 
 import getInitialState from '../utils/getInitialState';
 
@@ -10,6 +10,8 @@ const reducer = (state = getInitialState(), action) => {
       return { ...state, invoices: action.invoices };
     case CLEAR_DB:
       return { ...state, companies: [] };
+    case SET_VIEW_MODE:
+      return { ...state, viewMode: action.mode };
     default:
       return state;
   }

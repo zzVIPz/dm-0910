@@ -11,17 +11,24 @@ import Notification from '../notification/notification';
 
 import { NOTIFICATION_TEXT, VIEW_MODES, MODAL_INVOICE_TEXT } from '../../constants/constants';
 
-import { onSetCompanies, onSetInvoices } from '../../actions/actions';
+import { onSetCompanies, onSetInvoices, onSetViewMode } from '../../actions/actions';
 
 import getTimeStamp from '../../utils/getTimeStamp';
 
-const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) => {
+const Main = ({
+  api,
+  onCompaniesFetch,
+  onInvoicesFetch,
+  companies,
+  invoices,
+  viewMode,
+  setViewMode,
+}) => {
   const { organizationsView, invoicesView } = VIEW_MODES;
   const { credit } = MODAL_INVOICE_TEXT;
   const [displayModal, setDisplayModal] = useState(false);
   const [displayInvoiceModal, setDisplayInvoiceModal] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState(organizationsView);
 
   // organization
   const [currentOrganizationId, setKey] = useState(null);
@@ -58,13 +65,21 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
     setDisplayInvoiceModal(true);
   };
 
-  const openEditOrganization = ({ organizationKey, name, phone, address, siteUrl }) => {
-    setKey(organizationKey);
+  const openEditOrganization = ({ itemKey, name, phone, address, siteUrl }) => {
+    setKey(itemKey);
     setOrganizationName(name);
     setPhone(phone);
     setAddress(address);
     setSiteUrl(siteUrl);
     setDisplayModal(true);
+  };
+
+  const openEditInvoice = ({ itemKey, date, total, type }) => {
+    setInvoiceId(itemKey);
+    setInvoiceDate(date);
+    setInvoiceType(type);
+    setInvoiceTotal(total);
+    setDisplayInvoiceModal(true);
   };
 
   const setDefaultState = () => {
@@ -115,7 +130,11 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
 
   const onSubmitInvoice = async () => {
     if (currentInvoiceId) {
-      console.log('currentInvoiceId', currentInvoiceId);
+      await api.updateInvoice(currentOrganizationId, currentInvoiceId, {
+        date: currentInvoiceDate,
+        total: currentInvoiceTotal,
+        type: currentInvoiceType,
+      });
     } else {
       await api.addInvoice(currentOrganizationId, {
         date: currentInvoiceDate || getTimeStamp(),
@@ -140,7 +159,6 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
   const onDeleteInvoice = async (invoiceId) => {
     await api.deleteInvoice(currentOrganizationId, invoiceId);
     const data = await api.getOrganizationInvoices(currentOrganizationId);
-    console.log('onDeleteInvoice', data);
     onInvoicesFetch(data);
     showNotification(titleSuccess, invoiceDelete, 'green');
   };
@@ -148,7 +166,6 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
   const onViewInvoiceClick = async (organizationKey) => {
     setKey(organizationKey);
     const invoicesList = await api.getOrganizationInvoices(organizationKey);
-    console.log('organizationKey', invoicesList);
     onInvoicesFetch(invoicesList);
     setViewMode(invoicesView);
   };
@@ -194,6 +211,7 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
             invoices,
             viewMode,
             onEditOrganizationClick: openEditOrganization,
+            onEditInvoiceClick: openEditInvoice,
             onDeleteOrganizationClick: onDeleteOrganization,
             onDeleteInvoiceClick: onDeleteInvoice,
             onViewInvoiceClick,
@@ -223,6 +241,8 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
           {...{
             total: currentInvoiceTotal,
             currentInvoiceId,
+            currentInvoiceDate,
+            currentInvoiceType,
             displayInvoiceModal,
             onInvoiceModalClose,
             setInvoiceTotal,
@@ -247,13 +267,15 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
   );
 };
 
-const mapStateToProps = ({ api, companies, invoices }) => ({
+const mapStateToProps = ({ api, companies, invoices, viewMode }) => ({
   api,
   companies,
   invoices,
+  viewMode,
 });
 
 export default connect(mapStateToProps, {
   onCompaniesFetch: onSetCompanies,
   onInvoicesFetch: onSetInvoices,
+  setViewMode: onSetViewMode,
 })(Main);

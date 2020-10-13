@@ -44,6 +44,11 @@ export default class FirebaseService {
     }
   }
 
+  addInvoice(key, invoice) {
+    const newInvoiceRef = this.database.ref(`invoices/${key}`).push();
+    newInvoiceRef.set({ ...invoice });
+  }
+
   updateOrganization({ key, name, address, phone, siteUrl }) {
     const newCompanyRef = this.database.ref(`companies/${key}`);
     newCompanyRef.update({
@@ -54,9 +59,9 @@ export default class FirebaseService {
     });
   }
 
-  addInvoice(key, invoice) {
-    const newInvoiceRef = this.database.ref(`invoices/${key}`).push();
-    newInvoiceRef.set({ ...invoice });
+  updateInvoice(organizationId, invoiceId, invoice) {
+    const newCompanyRef = this.database.ref(`invoices/${organizationId}/${invoiceId}`);
+    newCompanyRef.update({ ...invoice });
   }
 
   async getOrganizationInvoices(organizationKey) {
