@@ -28,7 +28,7 @@ const CONTROLS_TEXT = {
   btnBackToOrganization: 'Add invoice',
 };
 
-const MODAL_TEXT = {
+const MODAL_ORGANIZATION_TEXT = {
   createOrganization: 'Create new organization',
   editOrganization: 'Edit organization',
   organizationName: 'Organization name:',
@@ -39,6 +39,23 @@ const MODAL_TEXT = {
   addressPlaceholder: 'Enter organization address',
   siteText: 'Site',
   siteUrlPlaceholder: 'Enter organization web site',
+};
+
+const MODAL_INVOICE_TEXT = {
+  createInvoice: 'Create new invoice',
+  editInvoice: 'Edit invoice',
+  date: 'Date:',
+  invoicesTypes: 'Invoices types:',
+  totalLabel: 'Total:',
+  totalPlaceholder: 'Enter the amount of money',
+  btnCancel: 'Cancel',
+  credit: 'credit',
+  debit: 'debit',
+  mixed: 'mixed',
+  commercial: 'commercial',
+};
+
+const MODAL_BUTTONS = {
   btnCancel: 'Cancel',
   btnOk: 'Ok',
 };
@@ -60,7 +77,9 @@ export {
   TABLE_ORGANIZATIONS_HEAD,
   TABLE_INVOICES_HEAD,
   CONTROLS_TEXT,
-  MODAL_TEXT,
+  MODAL_ORGANIZATION_TEXT,
   NOTIFICATION_TEXT,
   VIEW_MODES,
+  MODAL_INVOICE_TEXT,
+  MODAL_BUTTONS,
 };

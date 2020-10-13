@@ -5,10 +5,11 @@ import { Spinner, Container } from 'react-bootstrap';
 
 import Controls from '../controls/controls';
 import Table from '../table/table';
-import Modal from '../modal-add/modal-add';
+import OrganizationModal from '../modal-organization/modal-organization';
+import InvoiceModal from '../modal-invoice/modal-invoice';
 import Notification from '../notification/notification';
 
-import { NOTIFICATION_TEXT, VIEW_MODES } from '../../constants/constants';
+import { NOTIFICATION_TEXT, VIEW_MODES, MODAL_INVOICE_TEXT } from '../../constants/constants';
 
 import { onSetCompanies, onSetInvoices } from '../../actions/actions';
 
@@ -16,7 +17,9 @@ import getTimeStamp from '../../utils/getTimeStamp';
 
 const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) => {
   const { organizationsView, invoicesView } = VIEW_MODES;
+  const { credit } = MODAL_INVOICE_TEXT;
   const [displayModal, setDisplayModal] = useState(false);
+  const [displayInvoiceModal, setDisplayInvoiceModal] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState(organizationsView);
 
@@ -26,6 +29,12 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
   const [currentPhone, setPhone] = useState('');
   const [currentAddress, setAddress] = useState('');
   const [currentSiteUrl, setSiteUrl] = useState('');
+
+  // invoice
+  const [currentInvoiceId, setInvoiceId] = useState(null);
+  const [currentInvoiceDate, setInvoiceDate] = useState(null);
+  const [currentInvoiceType, setInvoiceType] = useState(credit);
+  const [currentInvoiceTotal, setInvoiceTotal] = useState('');
 
   // notification
   const { titleSuccess, organizationDelete, invoiceDelete } = NOTIFICATION_TEXT;
@@ -45,6 +54,10 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
     setDisplayModal(true);
   };
 
+  const openCreateInvoice = () => {
+    setDisplayInvoiceModal(true);
+  };
+
   const openEditOrganization = ({ organizationKey, name, phone, address, siteUrl }) => {
     setKey(organizationKey);
     setOrganizationName(name);
@@ -60,6 +73,13 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
     setPhone('');
     setAddress('');
     setSiteUrl('');
+  };
+
+  const setDefaultInvoicesState = () => {
+    setInvoiceId(null);
+    setInvoiceDate(null);
+    setInvoiceType(credit);
+    setInvoiceTotal('');
   };
 
   const showNotification = (title, description, bgTitleColor) => {
@@ -93,6 +113,23 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
     setDefaultState();
   };
 
+  const onSubmitInvoice = async () => {
+    if (currentInvoiceId) {
+      console.log('currentInvoiceId', currentInvoiceId);
+    } else {
+      await api.addInvoice(currentOrganizationId, {
+        date: currentInvoiceDate || getTimeStamp(),
+        type: currentInvoiceType,
+        total: currentInvoiceTotal,
+      });
+    }
+
+    const data = await api.getOrganizationInvoices(currentOrganizationId);
+    onInvoicesFetch(data);
+    setDisplayInvoiceModal();
+    setDefaultInvoicesState();
+  };
+
   const onDeleteOrganization = async (key) => {
     await api.deleteOrganization(key);
     const data = await api.getAllOrganizations();
@@ -121,16 +158,19 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
   };
 
   const onModalClose = () => {
-    setDisplayModal();
+    setDisplayModal(false);
     setDefaultState();
+  };
+
+  const onInvoiceModalClose = () => {
+    setDisplayInvoiceModal(false);
+    setDefaultInvoicesState();
   };
 
   const clickBtnBack = () => {
     setViewMode(organizationsView);
     setKey(null);
   };
-
-  const openCreateInvoice = () => {};
 
   return (
     <>
@@ -160,9 +200,8 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
           }}
         />
       )}
-
       {displayModal && (
-        <Modal
+        <OrganizationModal
           {...{
             name: currentName,
             phone: currentPhone,
@@ -176,6 +215,20 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
             onSubmitOrganization,
             onModalClose,
             displayModal,
+          }}
+        />
+      )}
+      {displayInvoiceModal && (
+        <InvoiceModal
+          {...{
+            total: currentInvoiceTotal,
+            currentInvoiceId,
+            displayInvoiceModal,
+            onInvoiceModalClose,
+            setInvoiceTotal,
+            setInvoiceType,
+            setInvoiceDate,
+            onSubmitInvoice,
           }}
         />
       )}
@@ -194,8 +247,7 @@ const Main = ({ api, onCompaniesFetch, onInvoicesFetch, companies, invoices }) =
   );
 };
 
-const mapStateToProps = ({ displayModal, api, companies, invoices }) => ({
-  displayModal,
+const mapStateToProps = ({ api, companies, invoices }) => ({
   api,
   companies,
   invoices,

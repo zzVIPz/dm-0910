@@ -4,8 +4,6 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 
 import { CONTROLS_TEXT, VIEW_MODES } from '../../constants/constants';
 
-// import 'bootstrap/dist/css/bootstrap.css';
-
 const Controls = ({
   onCreateOrganizationClick,
   onCreateInvoiceClick,
