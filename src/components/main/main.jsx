@@ -44,7 +44,7 @@ const Main = ({
   const [currentInvoiceTotal, setInvoiceTotal] = useState('');
 
   // notification
-  const { titleSuccess, organizationDelete, invoiceDelete } = NOTIFICATION_TEXT;
+  const { titleSuccess, organizationDelete, invoiceDelete, invoicesDelete } = NOTIFICATION_TEXT;
   const [displayNotification, setDisplayNotification] = useState(false);
   const [notificationTitle, setNotificationTitle] = useState('');
   const [notificationDescription, setNotificationDescription] = useState('');
@@ -156,11 +156,20 @@ const Main = ({
     showNotification(titleSuccess, organizationDelete, 'green');
   };
 
-  const onDeleteInvoice = async (invoiceId) => {
-    await api.deleteInvoice(currentOrganizationId, invoiceId);
+  const updateOrganizationInvoices = async (title, typeDescription, eventColor) => {
     const data = await api.getOrganizationInvoices(currentOrganizationId);
     onInvoicesFetch(data);
-    showNotification(titleSuccess, invoiceDelete, 'green');
+    showNotification(title, typeDescription, eventColor);
+  };
+
+  const onDeleteInvoice = async (invoiceId) => {
+    await api.deleteInvoice(currentOrganizationId, invoiceId);
+    updateOrganizationInvoices(titleSuccess, invoiceDelete, 'green');
+  };
+
+  const deleteInvoices = async () => {
+    await api.deleteOrganizationInvoices(currentOrganizationId);
+    updateOrganizationInvoices(titleSuccess, invoicesDelete, 'green');
   };
 
   const onViewInvoiceClick = async (organizationKey) => {
@@ -196,6 +205,7 @@ const Main = ({
         onCreateInvoiceClick={openCreateInvoice}
         viewMode={viewMode}
         onBtnBackClick={clickBtnBack}
+        onDeleteInvoices={deleteInvoices}
       />
       {isLoading ? (
         <Container

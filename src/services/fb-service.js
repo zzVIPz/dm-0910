@@ -82,6 +82,10 @@ export default class FirebaseService {
     this.database.ref(`invoices/${organizationKey}/${invoiceKey}`).remove();
   }
 
+  deleteOrganizationInvoices(organizationKey) {
+    this.database.ref(`invoices/${organizationKey}`).remove();
+  }
+
   removeAllOrganizations() {
     this.database.ref(`companies/`).remove();
     this.database.ref(`invoices/`).remove();

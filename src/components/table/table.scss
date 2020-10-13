@@ -3,13 +3,37 @@
   text-align: center;
 }
 
-@media (max-width: 768px) {
-  .column-title-registrationData,
-  .column-title-siteUrl {
+@media (max-width: 950px) {
+  .column-title-siteUrl,
+  .mobile-column-siteUrl {
     display: none;
   }
+}
 
-  .mobile-hide {
+@media (max-width: 768px) {
+  .column-title-registrationData,
+  .mobile-column-registrationData {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .column-title-address,
+  .mobile-column-address {
+    display: none;
+  }
+}
+
+@media (max-width: 455px) {
+  .column-title-phone,
+  .mobile-column-phone {
+    display: none;
+  }
+}
+
+@media (max-width: 435px) {
+  .column-title-date,
+  .mobile-column-date {
     display: none;
   }
 }

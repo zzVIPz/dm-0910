@@ -25,7 +25,7 @@ const TABLE_INVOICES_HEAD = {
 const CONTROLS_TEXT = {
   btnAddOrganization: 'Add organization',
   btnAddInvoice: 'Add invoice',
-  btnBackToOrganization: 'Add invoice',
+  deleteDeleteInvoices: 'Delete all invoices',
 };
 
 const MODAL_ORGANIZATION_TEXT = {
@@ -63,8 +63,9 @@ const MODAL_BUTTONS = {
 const NOTIFICATION_TEXT = {
   titleSuccess: 'Success',
   titleError: 'Error',
-  organizationDelete: 'Organization has been deleted',
-  invoiceDelete: 'Invoice has been deleted',
+  organizationDelete: 'Organization deleted',
+  invoiceDelete: 'Invoice deleted',
+  invoicesDelete: 'All invoices deleted',
 };
 
 const VIEW_MODES = {

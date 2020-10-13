@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 
 import { Table, ButtonGroup, Button } from 'react-bootstrap';
 import { CgFileDocument } from 'react-icons/cg';
@@ -72,7 +71,7 @@ const TableContainer = ({
               <InvoicesTableRow {...value} />
             )}
 
-            <td className="d-flex align-middle justify-content-center">
+            <td className="align-middle text-center">
               <ButtonGroup className="mt-1 mb-1">
                 {isOrganizationsView && (
                   <Button variant="success" onClick={() => onDetailsClick(key)}>
@@ -102,10 +101,10 @@ export default TableContainer;
 const OrganizationTableRow = ({ name, phone, address, registrationDate, siteUrl }) => (
   <>
     <td>{name}</td>
-    <td>{phone}</td>
-    <td>{address}</td>
-    <td className="mobile-hide">{getRegistrationDate(registrationDate)}</td>
-    <td className="mobile-hide">
+    <td className="mobile-column-phone">{phone}</td>
+    <td className="mobile-column-address">{address}</td>
+    <td className="mobile-column-registrationData">{getRegistrationDate(registrationDate)}</td>
+    <td className="mobile-column-siteUrl">
       <a href={siteUrl} rel="noreferrer" target="_blank">
         {siteUrl}
       </a>
@@ -115,7 +114,7 @@ const OrganizationTableRow = ({ name, phone, address, registrationDate, siteUrl 
 
 const InvoicesTableRow = ({ date, type, total }) => (
   <>
-    <td>{getRegistrationDate(date)}</td>
+    <td className="mobile-column-date">{getRegistrationDate(date)}</td>
     <td>{type}</td>
     <td>{total}</td>
   </>

@@ -19,7 +19,6 @@ const ModalContainer = ({
   onModalClose,
   currentOrganizationId,
 }) => {
-  // console.log('11111', name, currentOrganizationId);
   const { Header, Title, Body } = Modal;
 
   const {

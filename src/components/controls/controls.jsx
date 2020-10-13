@@ -7,10 +7,11 @@ import { CONTROLS_TEXT, VIEW_MODES } from '../../constants/constants';
 const Controls = ({
   onCreateOrganizationClick,
   onCreateInvoiceClick,
+  onDeleteInvoices,
   onBtnBackClick,
   viewMode,
 }) => {
-  const { btnAddOrganization, btnAddInvoice } = CONTROLS_TEXT;
+  const { btnAddOrganization, btnAddInvoice, deleteDeleteInvoices } = CONTROLS_TEXT;
   const { organizationsView } = VIEW_MODES;
   const btnBack = <IoMdArrowRoundBack />;
 
@@ -22,6 +23,7 @@ const Controls = ({
         <>
           <CreateButton bntText={btnBack} callback={onBtnBackClick} />
           <CreateButton bntText={btnAddInvoice} callback={onCreateInvoiceClick} />
+          <CreateButton bntText={deleteDeleteInvoices} callback={onDeleteInvoices} />
         </>
       )}
     </>
